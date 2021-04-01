@@ -1,0 +1,1 @@
+python manage.py runserver_plus 0.0.0.0:9595 --reloader-type stat --cert-file cert.crt --key-file cert.key --insecure

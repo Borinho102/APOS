@@ -1,0 +1,36 @@
+{% extends "registration/base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+    Compte | APOS
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div id="con-form" style="min-width: 50%; position: relative; top: -30px;">
+            <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Erreur</h4>
+            <hr style="border: 1px solid #ccc">
+            <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+                <b style="font-weight: 600; color: #009866;">A</b>
+                <b style="font-weight: 600; color: #ff0000;">P</b>
+                <b style="font-weight: 600; color: #ffab00;">O</b>
+                <b style="font-weight: 600; color: #000;">S</b>
+            </h5>
+
+            <center>
+                <img src="{% static "Account/img/sad0.gif" %}" width="150" height="150"/>
+            </center>
+            <br/>
+            Une erreur s'est produit lors de l'activation de votre compte.
+            <br/>
+            <b style="color: #ff2727">{{ activation_error.message }}</b>
+            <br><br/>
+
+            <center><section class="but">
+                <a href="{% url 'login' %}" style="color: #fff; font-size: 12px" class="btn btn-primary">Connexion</a>
+            </section></center>
+
+        </div>
+    </center>
+{% endblock %}

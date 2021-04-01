@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+{% block title %}
+    Panier | APOS
+{% endblock %}
+
+{% block load %}
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#8000FF"/>
+    </svg></div>
+{% endblock %}
+
+{% block style %}
+    <link href="{% static "Data/vendor/bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static "Data/vendor/fontawesome-free/css/all.min.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{% static "Data/vendor/datatables/dataTables.bootstrap4.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static "Data/css/sb-admin.css" %}" rel="stylesheet">
+
+    <style type="text/css">
+        .heading{
+            color: #000;
+        }
+        .btn{
+            border-radius: 5px;
+        }
+        .ads{
+            border: none;
+            -webkit-animation-name: blink;
+            -moz-animation-name: blink;
+            -o-animation-name: blink;
+            animation-name: blink;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+            animation-duration: 5s;
+        }
+        @keyframes blink {
+            from{ background: #4a148c; border-color: #4a148c; color: #fff; }
+            50%{ background: #ffab00; border-color: #ffab00; color: #000; }
+            to{ background: #4a148c; border-color: #4a148c; color: #fff; }
+        }
+    </style>
+{% endblock %}
+
+{% block head %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" style="font-size: 16px" href="/">
+                <i class="flaticon-university"></i>
+                APOS Concours
+                <br>
+                <center>
+                    <small style="font-size: 8px">Made for you</small>
+                </center>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="/" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="/orientation/" class="nav-link">Orientation</a></li>
+                    <li class="nav-item active"><a href="/exams/" class="nav-link">Concours</a></li>
+                    <li class="nav-item"><a href="/living/" class="nav-link">Logement</a></li>
+                    <li class="nav-item"><a href="" class="nav-link">A propos</a></li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            {% if user.user_data.avatar %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <img src="{{ user.user_data.avatar }}" width="30" height="30" class="rounded-circle">
+                                </a>
+                            {% else %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <div class="rounded-circle" style="width: 30px; height: 30px; background: #4a148c">
+                                        <center><b style="color: #fff; font-size: 17px">{{ user.username|first }}</b></center>
+                                    </div>
+                                </a>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a href="/cart/" class="nav-link" title="Mon Panier">
+                                    <img src="{% static "cart.png" %}"/>
+                                </a>
+                                <span class="p-1 rounded-circle"
+                                      style="background: #4a148c; color: #fff; width: 5px; height: 5px;
+                                       position:relative; top: -55px; left:30px; font-size: 10px">{{request.session.cart|length}}</span>
+                            </li>
+                        {% else %}
+                            <a href="{% url 'login' %}?next=/exams/" class="nav-link" title="Se Connecter sur APOS">
+                                <img src="{% static "Home/images/user.png" %}"/>
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'register' %}" class="nav-link" title="Creer un Compte">
+                                <img src="{% static "add.png" %}"/>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+{% endblock %}
+
+{% block main %}
+
+    {% if request.GET.err %}
+        <center><div id="alert" style="background: indianred; border: 1px solid red; color: white; padding: 10px; border-radius: 3px; max-width: 300px">
+            Votre panier est plein. Changer de pack pour plus de concours. <a href="/pack/?change=0" style="color: #ccc"><b>Changer</b></a>
+        </div></center>
+    {% endif %}
+
+    {% if request.GET.errpr %}
+        <center><div id="alerts" style="background: indianred; border: 1px solid red; color: white; padding: 10px; border-radius: 3px; max-width: 300px">
+            Votre panier est plein. Changer de pack pour plus de concours. <a href="/pack/?change=0" style="color: #ccc"><b>Changer</b></a>
+        </div></center>
+    {% endif %}
+
+    <center><h4 class="mt-5">Mon Panier de Concours</h4></center><br/>
+    <section class="mt-2 ftco-search-course mb-5">
+        <div class="container">
+            <div class="card mb-3">
+                <div class="card-header d-inline-flex">
+                    <div class="mr-5" style="line-height: 35px"><i class="mdi mdi-cart mr-2"></i>Mon Panier</div>
+                    <div class="ml-5" style="line-height: 35px">Pack: <i>{{ request.session.pack }}</i> </div>
+                    {% if request.session.cart|length < request.session.min %}
+                        <div class="ml-5 text-danger" style="line-height: 37px; font-size: 12px">Choisissez a moins <b>{{ request.session.min }}</b> concours pour valider</div>
+                    {% endif %}
+                    <div class="ml-5"> <b><a class="btn btn-primary m-0" href="/pack/?next=/cart/">Changer de pack</a></b> </div>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Niveau</th>
+                            <th>Cursus</th>
+                            <th>Region(Pays)</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in request.session.cart %}
+                            <tr>
+                                <td><b>{{ forloop.counter }}</b></td>
+                                <td style="font-size: 13px">Concours - {{ c.concern.name }}({{ c.concern.sigle }})</td>
+                                <td style="font-size: 13px">{{ c.get_niveau_display }}</td>
+                                <td style="font-size: 13px">{{ c.cursus.name }}</td>
+                                <td style="font-size: 13px">{{ c.concern.region.name }}({{c.concern.region.country.name}})</td>
+                                <td style="font-size: 13px">{{ c.concern.get_type_display }}</td>
+                                <td>
+                                    <form method="post" action="/exams/remove/{{ c.cid }}/?next=/cart/">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" title="Retirer du Panier"><b class="mdi mdi-delete"></b></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                <div class="card-footer small">Total à payer: [<b class=" text-primary">{{ total }} XAF</b>] - Quantité : <b class="text-primary">{{request.session.cart|length}}</b> concours - APOS</div>
+            </div>
+        </div>
+        {% if request.session.cart|length >= request.session.min %}
+            <div class="container mt-3 p-3" style="border: 1px solid #ccc; border-radius: 5px">
+            <center><h4>Choisissez votre opérateur de paiement</h4></center>
+            <hr class="my-3">
+            <div class="row">
+                {% if api %}
+                    {% for p in api %}
+                        <div class="col">
+                            <center>
+                                <a href="/pay/?api={{ p.id }}">
+                                    <img src="{{ p.logo.url }}" alt="{{ p }}" width="100" height="50"/><br/>
+                                    <b style="color: #000; text-decoration: none">{{ p.company }}</b>
+                                </a>
+                            </center>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col my-3">
+                        <center><h5 class="text-danger">Aucun service de paiement actif</h5></center>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="ftco-freeTrial mt-5">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-12">
+    				<div class="row d-flex align-items-center">
+                        <div class="col-md-4 col-12 free-trial ftco-animate">
+			    		    <img src="{% static "t.png" %}" width="150" height="100" alt="Test d'orientation">
+                        </div>
+			    		<div class="col-md-6 col-12 free-trial ftco-animate">
+			    			<h3>Faire un test d'orientation</h3>
+			    			<p>Envie de prendre une décision sur son futur métier ou une filière? C'est simple, faite un test d'orientation gratuitement sur APOS.</p>
+			    		</div>
+			    		<div class="col-md-2 col-12 btn-join ftco-animate">
+			    			<p><a href="#" class="btn btn-primary py-3 px-4">Essayer!</a></p>
+			    		</div>
+			    	</div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+
+    {% if exam %}
+    <section class="ftco-section testimony-section">
+        <div class="container">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Autres Concours Recommendés</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <div class="carousel-testimony owl-carousel">
+                        {% for e in exam %}
+                            <form method="post" action="/exams/add/{{ e.cid }}/?next=/cart/" class="item">
+                                {% csrf_token %}
+                                <div class="testimony-wrap text-center">
+                                    <div class="user-img mb-5" style="background-image: url({% if e.concern.logo %}{{ e.concern.logo.url }}{% else %}{% static "placeholder-school.png" %}{% endif %})">
+                                        <span class="quote d-flex align-items-center justify-content-center">
+                                          <i class="icon-quote-left"></i>
+                                        </span>
+                                    </div>
+                                    <div class="text">
+                                        <h4>{{ e.concours.cursus.etablissement.name }}</h4>
+                                        <p class="mb-5">
+                                            Niveau: <b>{{ e.concours.libelle }}</b><br/>
+                                            Cycle: <i>{{ e.concours.cursus.code }} | {{ e.cycle }}</i><br/>
+                                            <b>{{ e.concours.cursus.etablissement.universite.name }}</b>({{ e.concours.cursus.etablissement.universite.pays.name }})
+                                            <br/>
+                                        </p>
+                                        <hr/>
+                                        {% if e.id in user.abonne.exams %}
+                                            <p class="name text-danger">Déjà abonné</p>
+                                        {% elif e in request.session.cart %}
+                                            <p class="name text-success">Dans le Panier</p>
+                                        {% else %}
+                                            <p class="name"><button style="cursor: pointer; font-weight: 900; color: #4a148c; border: none; background: transparent; outline: none">Ajouter au Panier</button></p>
+                                        {% endif %}
+                                        <span class="position">Abonnés: {{ e.count_abonne }}</span>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "Data/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static "Data/vendor/jquery-easing/jquery.easing.min.js" %}"></script>
+
+    <script src="{% static "Data/vendor/datatables/jquery.dataTables.js" %}"></script>
+    <script src="{% static "Data/vendor/datatables/dataTables.bootstrap4.js" %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static "Data/js/sb-admin.min.js" %}"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="{% static "Data/js/demo/datatables-demo.js" %}"></script>
+
+    <script>
+    setTimeout(function () {
+        $('#alert').fadeOut('slow');
+        $('#alerts').fadeOut('slow');
+    }, 3500);
+    </script>
+{% endblock %}

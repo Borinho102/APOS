@@ -1,0 +1,63 @@
+{% extends "registration/base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+    Compte | APOS
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div id="con-form" style="min-width: 50%">
+        <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Erreur</h4>
+        <hr style="border: 1px solid #ccc">
+        <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+            <b style="font-weight: 600; color: #009866;">A</b>
+            <b style="font-weight: 600; color: #ff0000;">P</b>
+            <b style="font-weight: 600; color: #ffab00;">O</b>
+            <b style="font-weight: 600; color: #000;">S</b>
+        </h5>
+
+        {% if request.GET.err == "0" %}
+            <center>
+                <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                    <b class="ion ion-android-person fa-2x"></b>
+                </div>
+            </center>
+            <br/>
+            Votre compte n'a pas été enregistré avec succès. <b style="color: red">Le nom d'utilisateur est déjà utilisé</b>.
+        {% elif request.GET.err == "1" %}
+            <center>
+                <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                    <b class="ion ion-android-mail fa-2x"></b>
+                </div>
+            </center>
+            <br/>
+            Votre compte n'a pas été enregistré avec succès. <b style="color: red">L'adresse mail est déjà utilisé</b>.
+            <br/><br/>
+            <center>
+                <a href="{% url 'password_reset' %}" style="color: #4a148c; text-decoration: none; font-weight: bolder">
+                    <b>Recuperer le compte</b>
+                </a>
+            </center>
+        {% else %}
+            <center>
+                <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                    <b class="ion ion-android-sad fa-2x"></b>
+                </div>
+            </center>
+            <br/>
+            Votre compte n'a pas été enregistré avec succès. Un problème a surven.Bien vouloir réssayer plutard.<br><br/>
+            <b style="color: #4a148c; text-decoration: none; font-weight: bolder">
+                <b>Merci</b>
+            </b>
+        {% endif %}
+        <br><br/>
+
+        <center><section class="but">
+            <a href="{% url 'register' %}" style="color: #fff; font-size: 12px" class="btn btn-primary">Créer un compte</a>
+        </section></center>
+
+    </div>
+    </center>
+{% endblock %}

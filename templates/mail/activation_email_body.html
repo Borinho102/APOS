@@ -1,0 +1,21 @@
+{% extends "mail/base.html" %}
+
+{% block head %}
+    Mon Compte APOS
+{% endblock %}
+
+{% block main %}
+    <center>
+        <img src="{{ scheme }}://{{ site }}/static/Account/img/act.png" width="100" href="100" style="margin: 20px 0 20px 0">
+    </center>
+    Salut <b>{{ user.username }}</b>,
+    votre compte a été enregistré dans notre système. Pour des raisons de sécurité et d'identification, vous devez activer votre compte à travers
+    le lien ci-dessous pour vérifier votre identité:
+    <br/>
+    Cliquez-ici pour activer le compte: <a style="color: #4a148c; text-decoration: none" target="_blank" href="{{ scheme }}://{{ site }}/accounts/activate/{{ activation_key }}"><b>Activation link</b></a>
+    (Ce lien s'expire dans <b style="color: #8000FF;">{{ expiration_days }}</b> jours)
+    <br/><br/>
+    Si vous rencontrez un problème lors de l'activation, contactez notre compte:
+    <a style="color: #4a148c; text-decoration: none"
+       href="{{ scheme }}://{{ site }}/contact/" target="_blank">Contactez-nous</a>
+{% endblock %}

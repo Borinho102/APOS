@@ -1,0 +1,52 @@
+@import url("index.css");
+
+#action, #option, #other{
+    display: inline-flex;
+}
+
+.modal-body section{
+    overflow: auto;
+}
+.modal-dialog{
+    position: relative; top: 100px;
+}
+
+.con-det li{
+    margin: 10px 0;
+}
+
+.big{
+    font-weight: 600;
+}
+
+.modal{
+    z-index: 10000;
+}
+
+.modal-footer{
+    margin: 0 0 150px 0;
+}
+
+nav{
+    z-index: 9999;
+}
+
+.modal-body section h4{
+    text-align: center;
+}
+
+#other .col-5{
+    margin: 15px 0 15px 0;
+}
+
+@media (max-width: 768px){
+
+    .sigle{
+        font-size: 55%;
+    }
+
+    #action, #other, #option, .breadcrumb{
+        display: block;
+    }
+
+}

@@ -1,0 +1,74 @@
+{%  extends "registration/base.html" %}
+
+
+{% load static %}
+
+{% block title %}
+    APOS | Connexion
+{% endblock %}
+
+{% block content %}
+    <form id="con-form" style="min-width: 50%" class="mb-5" method="post">
+        {% csrf_token %}
+
+        <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Connexion</h4>
+
+        <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+            <b style="font-weight: 600; color: #009866;">A</b>
+            <b style="font-weight: 600; color: #ff0000;">P</b>
+            <b style="font-weight: 600; color: #ffab00;">O</b>
+            <b style="font-weight: 600; color: #000;">S</b>
+        </h5>
+
+        <hr/>
+        <b>Utiliser vos comptes sociaux</b><br/>
+        <div class="row d-inline-flex">
+            <div class="col">
+                <button class="btn btn-icon btn-round" style="border-color:  #ff2727; background: #ff2727">
+                    <b class="ion ion-social-google fa-2x"></b>
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-icon btn-round" style="border-color:  #002752; background: #002752">
+                    <b class="ion ion-social-facebook fa-2x"></b>
+                </button>
+            </div>
+        </div>
+        <hr/>
+        <br><center><b>Ou</b></center>
+        {% if form.errors %}
+            <center>
+                <p id="login-error" class="text-center" style="padding: 10px; border: 2px solid #843534; color: #843534; max-width: 80%; border-radius: 5px">
+                    Vos informations d'authentification sont incorrectes. R&eacute;ssayez
+                </p>
+            </center>
+        {% endif %}
+        <br/>
+        Utiliser vos informations d'APOS
+        <br/>
+        <input type="text" placeholder="Email ou Nom d'utilisateur" alt="Email" name="username" autofocus required id="id_username"><br/>
+        <input type="password" name="password" required id="id_password" placeholder="Mot de Passe" alt="Mot de Passe">
+        <br><br/>
+        <section class="row d-lg-inline-flex d-md-block d-block">
+            <div class="col mr-lg-5 mr-0">
+                <button type="submit" class="btn btn-primary col">Connexion</button>
+            </div>
+            <div class="col mt-md-0 mt-3 ml-lg-5 ml-0">
+                <a href="{% url 'register' %}" style="color: #4a148c; font-size: 12px; line-height: 80px">Cr&eacute;er un compte</a>
+            </div>
+        </section>
+        <hr/>
+        <div class="mt-3">
+            Problème de connexion? <a href="{% url 'password_reset' %}" style="color: #4a148c; font-size: 12px; font-weight: 900">Mot de Passe Oubli&eacute;</a>
+        </div>
+
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+        setTimeout(function () {
+            $('#login-error').fadeOut('slow');
+        }, 3000);
+    </script>
+{% endblock %}

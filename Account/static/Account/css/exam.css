@@ -1,0 +1,11 @@
+@import url('index.css');
+
+#tri{
+    display: inline-flex;
+}
+
+@media (max-width: 768px){
+    #tri{
+        display: block;
+    }
+}

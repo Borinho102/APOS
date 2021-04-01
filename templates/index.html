@@ -1,0 +1,564 @@
+{% extends "Home/base.html" %}
+
+{% load i18n static %}
+
+{% block title %}
+    APOS | Orientation pour tous
+{% endblock %}
+
+{% block load %}
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#8000FF"/>
+    </svg></div>
+{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+        .heading{
+            color: #000;
+        }
+        .btn{
+            border-radius: 5px;
+        }
+        .ads{
+            border: none;
+            -webkit-animation-name: blink;
+            -moz-animation-name: blink;
+            -o-animation-name: blink;
+            animation-name: blink;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+            animation-duration: 5s;
+        }
+        @keyframes blink {
+            from{ background: #4a148c; border-color: #4a148c; color: #fff; }
+            50%{ background: #ffab00; border-color: #ffab00; color: #000; }
+            to{ background: #4a148c; border-color: #4a148c; color: #fff; }
+        }
+    </style>
+{% endblock %}
+
+{% block head %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="flaticon-university"></i>
+                APOS
+                <br>
+                <center>
+                    <small style="font-size: 8px">Made for you</small>
+                </center>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="/" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="/orientation/" class="nav-link">Orientation</a></li>
+                    <li class="nav-item"><a href="/exam/" class="nav-link">Concours</a></li>
+                    <li class="nav-item"><a href="/living/" class="nav-link">Logement</a></li>
+                    <li class="nav-item"><a href="{% url "Home:about" %}" class="nav-link">A propos</a></li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            {% if user.user_data.avatar %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <img src="{{ user.user_data.avatar }}" width="30" height="30" class="rounded-circle">
+                                </a>
+                            {% else %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <div class="rounded-circle" style="width: 30px; height: 30px; background: #4a148c">
+                                        <center><b style="color: #fff; font-size: 17px">{{ user.username|first }}</b></center>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}" class="nav-link" title="Se Connecter sur APOS">
+                                <img src="{% static "Home/images/user.png" %}"/>
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'register' %}" class="nav-link" title="Creer un Compte">
+                                <img src="{% static "add.png" %}"/>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="#search" class="nav-link">
+                            <img src="{% static "Home/images/search.png" %}"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-lg-9">
+            <section class="mt-5 ftco-search-course" id="search">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="courseSearch-wrap d-md-flex flex-column-reverse">
+                                <div class="full-wrap d-flex ftco-animate">
+                                    <div class="one-third order-last p-3">
+                                        <span>Rechercher une école, une filière ou un concours</span>
+                                        <h3>Recherché sur APOS</h3>
+                                        <form action="#" class="course-search-form">
+                                            <div class="form-group d-flex">
+                                                <input type="text" class="form-control" placeholder="Tapez une indice" name="search">
+                                                <input type="submit" value="Rechercher" class="submit">
+                                            </div>
+                                        </form>
+                                        <p>Plus de précision? <a href="#"> Recherche avancée</a></p>
+                                    </div>
+                                    <div class="one-forth order-first img" style="background-image: url('{% static "Home/images/image_1.jpg" %}');"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ftco-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 ftco-animate">
+                            <div class="media block-6 services p-3 py-4 d-block text-center">
+                                <div class="icon d-flex justify-content-center align-items-center mb-3"><span style="color: #8000FF" class="flaticon-exam"></span></div>
+                                <div class="media-body px-3">
+                                    <h3 class="heading">Alerte concours</h3>
+                                    <p>
+                                        Recevez toutes l'actualiés sur les concours et écoles du Cameroun en tant réelle sur vos terminaux.
+                                    </p>
+                                    <button class="btn btn-primary">M'abonner</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ftco-animate">
+                            <div class="media block-6 services p-3 py-4 d-block text-center">
+                                <div class="icon d-flex justify-content-center align-items-center mb-3"><span style="color: #000000;" class="flaticon-blackboard"></span></div>
+                                <div class="media-body px-3">
+                                    <h3 class="heading">Test d'orientation</h3>
+                                    <p>
+                                        Effectuez un test gratuit enfin de prendre une décision sur votre carrière et mieux vous y préparer.
+                                    </p>
+                                    <button class="btn btn-primary">Lancer le test</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ftco-animate">
+                            <div class="media block-6 services p-3 py-4 d-block text-center">
+                                <div class="icon d-flex justify-content-center align-items-center mb-3"><span class="flaticon-university" style="color: #ffab00"></span></div>
+                                <div class="media-body px-3">
+                                    <h3 class="heading">Ecole idéale</h3>
+                                    <p>
+                                        Assistance gratuite pour une orientation vers les meilleures établissements et métiers.
+                                    </p>
+                                    <button class="btn btn-primary">Choisir une école</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+
+    <section class="ftco-section-3 img" style="background-image: url({% static "Home/images/bg_3.jpg" %});">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row d-md-flex justify-content-center">
+                <div class="col-md-9 about-video text-center">
+                    <h2 class="ftco-animate">
+                        APOS est l'endroit idéal pour l'obtention d'une meilleure orientation
+                    </h2>
+                    <div class="video d-flex justify-content-center">
+                        <a href="{% static "Home/blackm.mp4" %}" class="button popup-vimeo d-flex justify-content-center align-items-center"><span class="ion-ios-play"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-counter bg-light" id="section-counter">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="number" data-number="7896">0</strong>
+                                    <span>Nombre de visiteurs</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="number" data-number="200">0</strong>
+                                    <span>Nombre d'utilisateurs</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="number" data-number="10300">0</strong>
+                                    <span>Abonnés Satisfaits</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="number" data-number="400">0</strong>
+                                    <span>Ecoles enregistrées</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section testimony-section">
+        <div class="container">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Que disent nos abonnés?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <div class="carousel-testimony owl-carousel">
+                        <div class="item">
+                            <div class="testimony-wrap text-center">
+                                <div class="user-img mb-5" style="background-image: url({% static "Home/images/person_1.jpg" %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text">
+                                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                    <p class="name">Dennis Green</p>
+                                    <span class="position">CSE Student</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap text-center">
+                                <div class="user-img mb-5" style="background-image: url({% static "Home/images/person_2.jpg" %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text">
+                                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                    <p class="name">Dennis Green</p>
+                                    <span class="position">Math Student</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap text-center">
+                                <div class="user-img mb-5" style="background-image: url({% static "Home/images/person_2.jpg" %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text">
+                                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                    <p class="name">Dennis Green</p>
+                                    <span class="position">Science Students</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap text-center">
+                                <div class="user-img mb-5" style="background-image: url({% static "Home/images/person_3.jpg" %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text">
+                                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                                    <p class="name">Dennis Green</p>
+                                    <span class="position">English Student</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Nos conseillers d'orientation</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-sm-4 ftco-animate">
+                    <div class="staff">
+                        <div class="d-flex mb-4">
+                            <div class="img" style="background-image: url({% static "Home/images/person_1.jpg" %});"></div>
+                            <div class="info ml-4">
+                                <h3><a href="#">Ivan Jacobson</a></h3>
+                                <span class="position">CSE Teacher</span>
+                                <p class="ftco-social d-flex">
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-twitter"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-facebook"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-instagram"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-sm-4 ftco-animate">
+                    <div class="staff">
+                        <div class="d-flex mb-4">
+                            <div class="img" style="background-image: url{% static "Home/images/person_3.jpg" %});"></div>
+                            <div class="info ml-4">
+                                <h3><a href="">Ivan Jacobson</a></h3>
+                                <span class="position">CSE Teacher</span>
+                                <p class="ftco-social d-flex">
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-twitter"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-facebook"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-instagram"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-sm-4 ftco-animate">
+                    <div class="staff">
+                        <div class="d-flex mb-4">
+                            <div class="img" style="background-image: url({% static "Home/images/person_2.jpg" %});"></div>
+                            <div class="info ml-4">
+                                <h3><a href="">Ivan Jacobson</a></h3>
+                                <span class="position">CSE Teacher</span>
+                                <p class="ftco-social d-flex">
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-twitter"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-facebook"></span></a>
+                                    <a href="#" class="d-flex justify-content-center align-items-center"><span class="icon-instagram"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Les parcours</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="course align-self-stretch">
+                        <a href="#" class="img" style="background-image: url({% static "Home/images/course-1.jpg" %})"></a>
+                        <div class="text p-4">
+                            <p class="category"><span>Gestion</span></p>
+                            <h3 class="mb-3"><a href="#">Droit</a></h3>
+                            <p>
+                                Even the all-powerful Pointing has no control about the blind texts it is an almost
+                                unorthographic life One day however a small line of blind text by the name
+                            </p>
+                            <p><a href="#" class="btn btn-primary">Plus de détails</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="course align-self-stretch">
+                        <a href="#" class="img" style="background-image: url({% static "Home/images/course-2.jpg" %})"></a>
+                        <div class="text p-4">
+                            <p class="category"><span>Technologie</span></p>
+                            <h3 class="mb-3"><a href="#">Génie Informatique</a></h3>
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+                            <p><a href="#" class="btn btn-primary">Plus de détails</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="course align-self-stretch">
+                        <a href="#" class="img" style="background-image: url({% static "Home/images/course-3.jpg" %})"></a>
+                        <div class="text p-4">
+                            <p class="category"><span>Marketing</span></p>
+                            <h3 class="mb-3"><a href="#">Marketing Digital</a></h3>
+                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+                            <p><a href="#" class="btn btn-primary">Enroll now!</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center mb-2">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Les écoles</h2>
+                </div>
+            </div>
+            <div class="row d-flex">
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="" class="block-20" style="background-image: url({% static "Home/images/image_1.jpg" %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#"><span class="icon-map-marker" style="color: #8000FF;"></span> Ngoa-Ekélé - </a></div>
+                                <div><a href="#">Yaoundé</a></div>
+                                <div><a href="#" class="meta-chat">Distance approx. = <b style="color: #ffab00">15</b> km à vous</a></div>
+                            </div>
+                            <h5 class="heading mt-3" style="height: 50px"><a href="#">Ecole Normale Supérieure de Yaoundé(ENS)</a></h5>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <hr/>
+                            <center>
+                                <button class="btn btn-primary">Voir plus</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="" class="block-20" style="background-image: url({% static "Home/images/image_2.jpg" %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#"><span class="icon-map-marker" style="color: #8000FF;"></span> Hawai - </a></div>
+                                <div><a href="#">Yaoundé</a></div>
+                                <div><a href="#" class="meta-chat">Distance approx. = <b style="color: #ffab00">3</b> km à vous</a></div>
+                            </div>
+                            <h5 class="heading mt-3" style="height: 50px"><a href="#">Instutut Africaine de l'Informatique(IAI)</a></h5>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <hr/>
+                            <center>
+                                <button class="btn btn-primary">Voir plus</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="" class="block-20" style="background-image: url({% static "Home/images/image_3.jpg" %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#"><span class="icon-map-marker" style="color: #8000FF;"></span> Ngoa-Ekélé - </a></div>
+                                <div><a href="#">Yaoundé</a></div>
+                                <div><a href="#" class="meta-chat">Distance approx. = <b style="color: #ffab00">14</b> km à vous</a></div>
+                            </div>
+                            <h5 class="heading mt-3" style="height: 50px"><a href="#">Université de Yaoundé I(UY I)</a></h5>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <hr/>
+                            <center>
+                                <button class="btn btn-primary">Voir plus</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <h2 class="mb-4">Les concours sollicités</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="" class="block-20" style="background-image: url({% static 'Home/images/event-1.jpg' %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#">Date: </a></div>
+                                <div><a href="#">Septembre 10, 2019</a></div>
+                            </div>
+                            <h3 class="heading mb-4"><a href="#">Concours d'ENSP Yaoundé 2019</a></h3>
+                            <p class="time-loc">
+                                <span class="mr-2"><i class="icon-clock-o"></i> 10:30AM-03:30PM</span>
+                                <span><i class="icon-map-o"></i> Lieu de concours</span>
+                            </p>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <p><a href=""><b>Plus d'info</b> <i class="ion-ios-add"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry d-flex align-self-stretch flex-column-reverse">
+                        <a href="" class="block-20" style="background-image: url({% static 'Home/images/event-2.jpg' %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#">Date: </a></div>
+                                <div><a href="#">Aout 24, 2019</a></div>
+                            </div>
+                            <h3 class="heading mb-4"><a href="#">Concours de la FASA 2019</a></h3>
+                            <p class="time-loc">
+                                <span class="mr-2"><i class="icon-clock-o"></i> 08:00AM-14:00PM</span>
+                                <span><i class="icon-map-o"></i> Lieu de concours</span>
+                            </p>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <p><a href=""><b>Plus d'info</b> <i class="ion-ios-add"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="" class="block-20" style="background-image: url({% static 'Home/images/event-3.jpg' %});">
+                        </a>
+                        <div class="text p-4 d-block">
+                            <div class="meta mb-3">
+                                <div><a href="#">Date: </a></div>
+                                <div><a href="#">Aout 30, 2019</a></div>
+                            </div>
+                            <h3 class="heading mb-4"><a href="#">Concours d'IUT Bandjoun 2019</a></h3>
+                            <p class="time-loc">
+                                <span class="mr-2"><i class="icon-clock-o"></i> 08:30AM-12:30PM</span>
+                                <span><i class="icon-map-o"></i> Lieu de concours</span>
+                            </p>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <p><a href=""><b>Plus d'info</b> <i class="ion-ios-add"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

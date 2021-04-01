@@ -1,0 +1,86 @@
+@import url('index.css');
+
+#con-form{
+    overflow: auto;
+    padding: 3% 2% 3% 2%;
+    text-align: center;
+    margin-top: 5%;
+    max-width: 70%;
+    border-radius: 7px;
+    border: 2px solid #ccc;
+    min-width: 70%;
+    min-height: 50%;
+    max-height: 50%;
+}
+
+#email, #password2, #password1, #name, #phone{
+    width: 75%;
+}
+
+.error-box{
+    border: 2px solid #ff2727;
+    color: #ff2727;
+    background: #fff;
+    max-width: 75%;
+    min-height: 10%;
+    max-height: 10%;
+    border-radius: 7px;
+    margin: 7%;
+}
+
+#coba{
+    text-align: center;
+}
+
+.block, .action{
+    display: inline-flex;
+}
+
+@media (max-width: 991px) {
+    #con-form{
+        margin-top: 35%;
+    }
+    .action{
+        display: block;
+        margin-bottom: 15%;
+    }
+    .action > button{
+        margin: 10px 20px;
+    }
+    .action > button:last-child{
+        position: relative;
+        left: -25px;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Roboto Light', sans-serif;
+}
+input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    outline: none;
+    font-size: 14px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    width: 28%;
+    margin: 10px;
+}
+
+/* target IE7 and IE6 */
+*:first-child+html pre {
+    padding-bottom: 2em;
+    overflow-y: hidden;
+    overflow: visible;
+    overflow-x: auto;
+}
+* html pre {
+    padding-bottom: 2em;
+    overflow: visible;
+    overflow-x: auto;
+}

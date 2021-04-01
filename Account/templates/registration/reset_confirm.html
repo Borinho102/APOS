@@ -1,0 +1,77 @@
+{%  extends "registration/base.html" %}
+
+
+{% load static %}
+
+{% block title %}
+    APOS | Reinitialisation
+{% endblock %}
+
+{% block content %}
+    <form id="con-form" style="min-width: 50%" class="mb-5" method="post">
+        {% csrf_token %}
+
+        <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Reinitialisation</h4>
+
+        <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+            <b style="font-weight: 600; color: #009866;">A</b>
+            <b style="font-weight: 600; color: #ff0000;">P</b>
+            <b style="font-weight: 600; color: #ffab00;">O</b>
+            <b style="font-weight: 600; color: #000;">S</b>
+        </h5>
+
+        <center>
+            <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                <b class="ion ion-key fa-2x"></b>
+            </div>
+        </center>
+        <hr>
+        {% if form.errors %}
+            <center>
+                <div id="login-error" class="text-center"
+                     style="padding: 10px; border: 2px solid #843534; background: #843534; color: #fff; max-width: 80%; border-radius: 5px">
+                    <p>
+                        {{ form.errors.new_password1 }}
+                    </p>
+                    <p>
+                        {{ form.errors.new_password2 }}
+                    </p>
+                </div>
+            </center>
+        {% endif %}
+        <br/>
+        Utiliser vos informations d'APOS
+        <br/>
+        <label for="id_new_password1">Nouveau mot de passe :</label>
+        <input id="id_new_password1" name="new_password1" required="" type="password"/><br/>
+        <label for="id_new_password2">Confirmation du nouveau mot de passe :</label>
+        <input id="id_new_password2" name="new_password2" required="" type="password"/><br/>
+        <br><br/>
+
+        <b>
+            Caracteristiques du mot de passe
+        </b>
+        <div class="helptext p-3" style="border-radius: 5px; border: 2px solid #ffab00; background: #fff3cd">
+            <ul>
+                <li>Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.</li>
+                <li>Votre mot de passe doit contenir au minimum 8 caractères.</li>
+                <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé.</li>
+                <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
+            </ul>
+        </div>
+
+        <section class="but">
+            <a id="rec" href="{% url 'login' %}" style="color: #4a148c; font-size: 12px" class="mr-5">Connexion</a>
+            <button type="submit" class="btn btn-primary ml-5">Reinitialiser</button>
+        </section>
+
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+        setTimeout(function () {
+            $('#login-error').fadeOut('slow');
+        }, 7000);
+    </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "registration/base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+    Recupération | APOS
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div id="con-form" style="min-width: 50%">
+            <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Compte reinitialisé</h4>
+            <hr style="border: 1px solid #ccc">
+            <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+                <b style="font-weight: 600; color: #009866;">A</b>
+                <b style="font-weight: 600; color: #ff0000;">P</b>
+                <b style="font-weight: 600; color: #ffab00;">O</b>
+                <b style="font-weight: 600; color: #000;">S</b>
+            </h5>
+
+            <center>
+                <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                    <b class="fa fa-key fa-2x"></b>
+                </div>
+            </center>
+            <br/>
+            Votre nouveau mot de passe a été bien définit. Vous pouvez à présent vous connecter sur APOS.
+            <br><br/>
+
+            <center><section class="but">
+                <a href="{% url 'login' %}" style="color: #fff; font-size: 12px" class="btn btn-primary">Connexion</a>
+            </section></center>
+
+        </div>
+    </center>
+{% endblock %}

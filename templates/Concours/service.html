@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+{% block title %}
+    Services | APOS
+{% endblock %}
+
+{% block load %}
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#8000FF"/>
+    </svg></div>
+{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+        .heading{
+            color: #000;
+        }
+        .btn{
+            border-radius: 5px;
+        }
+        .ads{
+            border: none;
+            -webkit-animation-name: blink;
+            -moz-animation-name: blink;
+            -o-animation-name: blink;
+            animation-name: blink;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+            animation-duration: 5s;
+        }
+        @keyframes blink {
+            from{ background: #4a148c; border-color: #4a148c; color: #fff; }
+            50%{ background: #ffab00; border-color: #ffab00; color: #000; }
+            to{ background: #4a148c; border-color: #4a148c; color: #fff; }
+        }
+    </style>
+{% endblock %}
+
+{% block head %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" style="font-size: 16px" href="/">
+                <i class="flaticon-university"></i>
+                APOS Concours
+                <br>
+                <center>
+                    <small style="font-size: 8px">Made for you</small>
+                </center>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="/" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="/orientation/" class="nav-link">Orientation</a></li>
+                    <li class="nav-item active"><a href="/exams/" class="nav-link">Concours</a></li>
+                    <li class="nav-item"><a href="/living/" class="nav-link">Logement</a></li>
+                    <li class="nav-item"><a href="" class="nav-link">A propos</a></li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            {% if user.user_data.avatar %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <img src="{{ user.user_data.avatar }}" width="30" height="30" class="rounded-circle">
+                                </a>
+                            {% else %}
+                                <a href="#" title="{{ user }}'s Console" class="nav-link">
+                                    <div class="rounded-circle" style="width: 30px; height: 30px; background: #4a148c">
+                                        <center><b style="color: #fff; font-size: 17px">{{ user.username|first }}</b></center>
+                                    </div>
+                                </a>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a href="/cart/" class="nav-link" title="Mon Panier">
+                                    <img src="{% static "cart.png" %}"/>
+                                </a>
+                                <span class="p-1 rounded-circle"
+                                      style="background: #4a148c; color: #fff; width: 5px; height: 5px;
+                                       position:relative; top: -55px; left:30px; font-size: 10px">{{request.session.cart|length}}</span>
+                            </li>
+                        {% else %}
+                            <a href="{% url 'login' %}?next=/exams/" class="nav-link" title="Se Connecter sur APOS">
+                                <img src="{% static "Home/images/user.png" %}"/>
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'register' %}" class="nav-link" title="Creer un Compte">
+                                <img src="{% static "add.png" %}"/>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- END nav -->
+{% endblock %}
+
+{% block main %}
+
+    <center><h2 class="mt-5">APOS <b class="text-warning">Pay</b></h2></center><br/>
+
+    <section class="mt-2 ftco-search-course mb-5">
+        <div class="container mt-3 p-3" style="border: 1px solid #ccc; border-radius: 5px">
+            <center><h4 class="text-muted">Choisissez votre opérateur de paiement</h4></center>
+            <hr class="my-3">
+            <div class="row">
+                {% if api %}
+                    {% for p in api %}
+                        <div class="col">
+                            <center>
+                                <a href="/pay/?api={{ p.id }}">
+                                    <img src="{{ p.logo.url }}" alt="{{ p }}" width="100" height="50"/><br/>
+                                    <b style="color: #000; text-decoration: none">{{ p.company }}</b>
+                                </a>
+                            </center>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col my-3">
+                        <center><h5 class="text-danger">Aucun service de paiement actif</h5></center>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-freeTrial mt-5" style="background: #ccc">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-12">
+    				<div class="row d-flex align-items-center">
+                        <div class="col-md-4 col-12 free-trial ftco-animate">
+			    		    <img src="{% static "t.png" %}" width="150" height="100" alt="Test d'orientation">
+                        </div>
+			    		<div class="col-md-6 col-12 free-trial ftco-animate">
+			    			<h3>Faire un test d'orientation</h3>
+			    			<p>Envie de prendre une décision sur son futur métier ou une filière? C'est simple, faite un test d'orientation gratuitement sur APOS.</p>
+			    		</div>
+			    		<div class="col-md-2 col-12 btn-join ftco-animate">
+			    			<p><a href="#" class="btn btn-primary py-3 px-4">Essayer!</a></p>
+			    		</div>
+			    	</div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "Data/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static "Data/vendor/jquery-easing/jquery.easing.min.js" %}"></script>
+
+    <script src="{% static "Data/vendor/datatables/jquery.dataTables.js" %}"></script>
+    <script src="{% static "Data/vendor/datatables/dataTables.bootstrap4.js" %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static "Data/js/sb-admin.min.js" %}"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="{% static "Data/js/demo/datatables-demo.js" %}"></script>
+{% endblock %}

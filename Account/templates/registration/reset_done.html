@@ -1,0 +1,38 @@
+{% extends "registration/base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+    Recupération | APOS
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div id="con-form" style="min-width: 50%">
+        <h4 style="font-family: Roboto, serif; color: #000; font-weight: 900; font-size: 25px">Message de réinitialisation du mot de passe envoyé</h4>
+        <hr style="border: 1px solid #ccc">
+        <h5 style="font-size: 17px; font-family: 'Roboto', serif">
+            <b style="font-weight: 600; color: #009866;">A</b>
+            <b style="font-weight: 600; color: #ff0000;">P</b>
+            <b style="font-weight: 600; color: #ffab00;">O</b>
+            <b style="font-weight: 600; color: #000;">S</b>
+        </h5>
+
+        <center>
+            <div class="rounded-circle p-2 mt-3" style="border: 2px solid #4a148c; max-width: 50px">
+                <b class="fa fa-envelope fa-2x"></b>
+            </div>
+        </center>
+        <br/>
+        Nous vous avons envoyé par courriel les instructions pour changer de mot de passe, pour autant qu'un compte existe avec l'adresse que vous avez indiquée. Vous devriez recevoir rapidement ce message.<br/>
+        <br/>
+        Si vous ne recevez pas de message, vérifiez que vous avez saisi l'adresse avec laquelle vous vous êtes enregistré et contrôlez votre dossier de pourriels.
+        <br><br/>
+
+        <center><section class="but">
+            <a href="{% url 'login' %}" style="color: #fff; font-size: 12px" class="btn btn-primary">Connexion</a>
+        </section></center>
+
+    </div>
+    </center>
+{% endblock %}

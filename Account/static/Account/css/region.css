@@ -1,0 +1,17 @@
+@import url('index.css');
+
+/* Show it is fixed to the top */
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+
+#options{
+    display: inline-flex;
+}
+
+@media (max-width: 768px) {
+    #options{
+        display: block;
+    }
+}
