@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'user_sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -46,7 +47,6 @@ INSTALLED_APPS = [
     'user_agents',
     'django_extensions',
     'django_registration',
-    'tracking',
     'django.contrib.sites',
     'phonenumber_field',
 
@@ -121,7 +121,6 @@ GEOIP_PATH = "C:/MIM/data/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'tracking.middleware.VisitorTrackingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'geoip2_extras.middleware.GeoIP2Middleware',
@@ -129,8 +128,6 @@ MIDDLEWARE = [
     # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
-    'htmlmin.middleware.HtmlMinifyMiddleware',
-    'htmlmin.middleware.MarkRequestMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -169,7 +166,7 @@ DATABASES = {
         'NAME': 'APOS',
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
-        'PASSWORD': '16011999',
+        'PASSWORD': '12345678',
         'PORT': 5432
     }
 }
@@ -223,14 +220,12 @@ EMAIL_PORT = 1025
 
 SITE_ID = 1
 
-HTML_MINIFY = True
-
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-        'TIMEOUT': 0,
-    }
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "KEY_PREFIX": "alloy"
+    },
 }
 
 INTERNAL_IPS = ("127.0.0.1", "192.168.137.1", 'localhost')

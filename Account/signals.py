@@ -16,11 +16,15 @@ def sig_in(sender, user, request, **kwargs):
     ip = get_real_ip(request) or get_ip(request)
     ua = request.META['HTTP_USER_AGENT']
     ua = user_agents.parse(ua)
-    request.session['user_data'] = UserData.objects.filter(user=request.user)[0]
-    request.session['browser'] = ua.browser.family
-    request.session['navigator'] = ua.browser.family + " " + ua.browser.version_string
-    request.session['os'] = ua.os.family + " " + ua.os.version_string
-    request.session['platform'] = ua.os.family
+    try:
+        request.session['user_data'] = UserData.objects.filter(user=request.user)[0]
+        request.session['browser'] = ua.browser.family
+        request.session['navigator'] = ua.browser.family + " " + ua.browser.version_string
+        request.session['os'] = ua.os.family + " " + ua.os.version_string
+        request.session['platform'] = ua.os.family
+    except Exception as e:
+        print(str(e))
+        pass
     user.last_login = now()
     user.save()
     csv_creator(str(user.id))
